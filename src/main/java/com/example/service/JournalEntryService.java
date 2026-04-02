@@ -5,6 +5,7 @@ import com.example.entity.User;
 import com.example.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class JournalEntryService {
     }
 
     // Save or Update
+    @Transactional
     public void saveEntry(JournalEntry journalEntry, String username) {
         User user = userService.findByUserName(username);
         JournalEntry saved = journalEntryRepository.save(journalEntry);
@@ -42,6 +44,7 @@ public class JournalEntryService {
     }
 
     // Delete by ID
+    @Transactional
     public void deleteById(ObjectId id, String userName) {
         User user = userService.findByUserName(userName);
         user.getJournalEntries().removeIf(entry -> entry.getId().equals(id));
